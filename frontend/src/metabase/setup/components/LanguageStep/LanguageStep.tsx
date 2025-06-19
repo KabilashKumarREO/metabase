@@ -26,14 +26,14 @@ import {
 
 export const LanguageStep = ({ stepLabel }: NumberedStepProps): JSX.Element => {
   const { isStepActive, isStepCompleted } = useStep("language");
-  const currentLocale = useSelector(getLocale);
+  const locale = useSelector(getLocale);
   const localeData = useSelector(getAvailableLocales);
   const fieldId = useMemo(() => _.uniqueId(), []);
   const locales = useMemo(() => getLocales(localeData), [localeData]);
   const dispatch = useDispatch();
 
   const [selectedLocale, setSelectedLocale] = useState<Locale | undefined>(
-    currentLocale,
+    locale,
   );
 
   const handleLocaleChange = (locale: Locale) => {
@@ -50,7 +50,7 @@ export const LanguageStep = ({ stepLabel }: NumberedStepProps): JSX.Element => {
   if (!isStepActive) {
     return (
       <InactiveStep
-        title={t`Your language is set to ${currentLocale?.name}`}
+        title={t`Your language is set to ${locale?.name}`}
         label={stepLabel}
         isStepCompleted={isStepCompleted}
       />
