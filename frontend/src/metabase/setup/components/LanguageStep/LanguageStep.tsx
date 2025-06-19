@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { t } from "ttag";
 import _ from "underscore";
 
@@ -26,24 +26,31 @@ import {
 
 export const LanguageStep = ({ stepLabel }: NumberedStepProps): JSX.Element => {
   const { isStepActive, isStepCompleted } = useStep("language");
-  const locale = useSelector(getLocale);
+  const currentLocale = useSelector(getLocale);
   const localeData = useSelector(getAvailableLocales);
   const fieldId = useMemo(() => _.uniqueId(), []);
   const locales = useMemo(() => getLocales(localeData), [localeData]);
   const dispatch = useDispatch();
 
+  const [selectedLocale, setSelectedLocale] = useState<Locale | undefined>(
+    currentLocale,
+  );
+
   const handleLocaleChange = (locale: Locale) => {
-    dispatch(updateLocale(locale));
+    setSelectedLocale(locale);
   };
 
   const handleStepSubmit = () => {
+    if (selectedLocale) {
+      dispatch(updateLocale(selectedLocale));
+    }
     dispatch(goToNextStep());
   };
 
   if (!isStepActive) {
     return (
       <InactiveStep
-        title={t`Your language is set to ${locale?.name}`}
+        title={t`Your language is set to ${currentLocale?.name}`}
         label={stepLabel}
         isStepCompleted={isStepCompleted}
       />
@@ -63,15 +70,15 @@ export const LanguageStep = ({ stepLabel }: NumberedStepProps): JSX.Element => {
           <LocaleItem
             key={item.code}
             locale={item}
-            checked={item.code === locale?.code}
+            checked={item.code === selectedLocale?.code}
             fieldId={fieldId}
             onLocaleChange={handleLocaleChange}
           />
         ))}
       </LocaleGroup>
       <Button
-        primary={locale != null}
-        disabled={locale == null}
+        primary={selectedLocale != null}
+        disabled={selectedLocale == null}
         onClick={handleStepSubmit}
       >
         {t`Next`}
