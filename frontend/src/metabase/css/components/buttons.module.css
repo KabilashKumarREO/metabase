@@ -25,7 +25,8 @@
 }
 
 .Button:focus {
-  outline: 2px solid var(--mb-color-focus);
+  border: 2px solid var(--mb-base-color-white);
+  outline: 2px solid var(--mb-color-focus-dark);
 }
 
 .Button:focus:not(:focus-visible) {
