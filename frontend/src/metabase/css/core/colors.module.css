@@ -72,6 +72,7 @@
   --mb-color-border: #eeecec;
   --mb-color-filter: #7172ad;
   --mb-color-focus: var(--mb-base-color-blue-20);
+  --mb-color-focus-dark: var(--mb-base-color-blue-70);
   --mb-color-warning: #f9cf48;
   --mb-color-text-primary: var(--mb-color-text-dark);
   --mb-color-text-secondary: var(--mb-color-text-medium);

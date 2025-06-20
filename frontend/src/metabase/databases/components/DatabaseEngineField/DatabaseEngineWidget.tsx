@@ -7,6 +7,10 @@ import ExternalLink from "metabase/core/components/ExternalLink";
 import Input from "metabase/core/components/Input";
 import { useUniqueId } from "metabase/hooks/use-unique-id";
 
+import {
+  Label,
+  LabelContainer,
+} from "../../../components/MetadataInfo/MetadataInfo.styled";
 import type { EngineOption } from "../../types";
 import { getEngineLogo } from "../../utils/engine";
 
@@ -138,9 +142,11 @@ const EngineSearch = ({
 
   return (
     <EngineSearchRoot role="combobox">
+      <LabelContainer>
+        <Label>{t`Search for database`}</Label>
+      </LabelContainer>
       <Input
         value={searchText}
-        placeholder={t`Search for a database…`}
         autoFocus
         aria-autocomplete="list"
         aria-controls={getListBoxId(rootId)}
@@ -219,6 +225,7 @@ const EngineCard = ({
   return (
     <EngineCardRoot
       role="option"
+      tabIndex={0}
       id={getListOptionId(rootId, option)}
       isActive={isActive}
       onClick={handleClick}
