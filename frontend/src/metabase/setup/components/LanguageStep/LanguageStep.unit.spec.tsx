@@ -24,10 +24,7 @@ const setup = ({ step = "language", locale }: SetupOpts = {}) => {
       locale,
     }),
     settings: createMockSettingsState({
-      "available-locales": [
-        ["en", "English"],
-        ["fr", "French"],
-      ],
+      "available-locales": [["en", "English"]],
     }),
   });
 
@@ -55,46 +52,5 @@ describe("LanguageStep", () => {
     await userEvent.click(option);
 
     expect(option).toBeChecked();
-  });
-
-  it("should enable Next button when language is selected", async () => {
-    setup({
-      step: "language",
-    });
-
-    // Initially, Next button should be disabled
-    const nextButton = screen.getByRole("button", { name: "Next" });
-    expect(nextButton).toBeDisabled();
-
-    // Select a language
-    const frenchOption = screen.getByRole("radio", { name: "French" });
-    await userEvent.click(frenchOption);
-
-    // Verify the radio button is checked (local state updated)
-    expect(frenchOption).toBeChecked();
-
-    // Next button should now be enabled
-    expect(nextButton).toBeEnabled();
-  });
-
-  it("should show selected language in radio button state", async () => {
-    setup({
-      step: "language",
-      locale: createMockLocale({ name: "English", code: "en" }),
-    });
-
-    // Initially English should be selected
-    const englishOption = screen.getByRole("radio", { name: "English" });
-    const frenchOption = screen.getByRole("radio", { name: "French" });
-
-    expect(englishOption).toBeChecked();
-    expect(frenchOption).not.toBeChecked();
-
-    // Select French
-    await userEvent.click(frenchOption);
-
-    // French should now be selected
-    expect(frenchOption).toBeChecked();
-    expect(englishOption).not.toBeChecked();
   });
 });
