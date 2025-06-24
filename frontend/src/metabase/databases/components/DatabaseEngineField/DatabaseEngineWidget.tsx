@@ -143,7 +143,7 @@ const EngineSearch = ({
   return (
     <EngineSearchRoot role="combobox">
       <LabelContainer>
-        <Label>{t`Search for database`}</Label>
+        <Label>{t`Search for a database`}</Label>
       </LabelContainer>
       <Input
         value={searchText}
@@ -189,7 +189,11 @@ const EngineList = ({
   onOptionChange,
 }: EngineListProps): JSX.Element => {
   return (
-    <EngineListRoot role="listbox" id={getListBoxId(rootId)}>
+    <EngineListRoot
+      role="listbox"
+      id={getListBoxId(rootId)}
+      aria-live="assertive"
+    >
       {options.map((option, optionIndex) => (
         <EngineCard
           key={option.value}
@@ -254,13 +258,13 @@ const EngineEmptyState = ({ isHosted }: EngineEmptyStateProps): JSX.Element => {
     <EngineEmptyStateRoot>
       <EngineEmptyIcon name="search" size={32} />
       {isHosted ? (
-        <EngineEmptyText>{t`Didn’t find anything`}</EngineEmptyText>
+        <EngineEmptyText>{t`Didn't find anything`}</EngineEmptyText>
       ) : (
-        <EngineEmptyText>{jt`Don’t see your database? Check out our ${(
+        <EngineEmptyText>{jt`Don't see your database? Check out our ${(
           <ExternalLink key="link" href={docsUrl}>
             {t`Community Drivers`}
           </ExternalLink>
-        )} page to see if it’s available for self-hosting.`}</EngineEmptyText>
+        )} page to see if it's available for self-hosting.`}</EngineEmptyText>
       )}
     </EngineEmptyStateRoot>
   );
