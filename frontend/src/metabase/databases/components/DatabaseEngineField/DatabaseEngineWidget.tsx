@@ -7,6 +7,10 @@ import Input from "metabase/common/components/Input";
 import { useDocsUrl } from "metabase/common/hooks";
 import { useUniqueId } from "metabase/common/hooks/use-unique-id";
 
+import {
+  Label,
+  LabelContainer,
+} from "../../../components/MetadataInfo/MetadataInfo.styled";
 import type { EngineOption } from "../../types";
 import { getEngineLogo } from "../../utils/engine";
 
@@ -138,9 +142,11 @@ const EngineSearch = ({
 
   return (
     <EngineSearchRoot role="combobox">
+      <LabelContainer>
+        <Label>{t`Search for a database`}</Label>
+      </LabelContainer>
       <Input
         value={searchText}
-        placeholder={t`Search for a database…`}
         autoFocus
         aria-autocomplete="list"
         aria-controls={getListBoxId(rootId)}
@@ -183,7 +189,11 @@ const EngineList = ({
   onOptionChange,
 }: EngineListProps): JSX.Element => {
   return (
-    <EngineListRoot role="listbox" id={getListBoxId(rootId)}>
+    <EngineListRoot
+      role="listbox"
+      id={getListBoxId(rootId)}
+      aria-live="assertive"
+    >
       {options.map((option, optionIndex) => (
         <EngineCard
           key={option.value}
@@ -219,6 +229,7 @@ const EngineCard = ({
   return (
     <EngineCardRoot
       role="option"
+      tabIndex={0}
       id={getListOptionId(rootId, option)}
       isActive={isActive}
       onClick={handleClick}
@@ -247,13 +258,13 @@ const EngineEmptyState = ({ isHosted }: EngineEmptyStateProps): JSX.Element => {
     <EngineEmptyStateRoot>
       <EngineEmptyIcon name="search" size={32} />
       {isHosted ? (
-        <EngineEmptyText>{t`Didn’t find anything`}</EngineEmptyText>
+        <EngineEmptyText>{t`Didn't find anything`}</EngineEmptyText>
       ) : (
-        <EngineEmptyText>{jt`Don’t see your database? Check out our ${(
+        <EngineEmptyText>{jt`Don't see your database? Check out our ${(
           <ExternalLink key="link" href={docsUrl}>
             {t`Community Drivers`}
           </ExternalLink>
-        )} page to see if it’s available for self-hosting.`}</EngineEmptyText>
+        )} page to see if it's available for self-hosting.`}</EngineEmptyText>
       )}
     </EngineEmptyStateRoot>
   );
