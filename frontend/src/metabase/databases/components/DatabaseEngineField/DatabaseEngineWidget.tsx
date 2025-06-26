@@ -4,13 +4,17 @@ import { jt, t } from "ttag";
 
 import ExternalLink from "metabase/common/components/ExternalLink";
 import Input from "metabase/common/components/Input";
-import { useDocsUrl } from "metabase/common/hooks";
-import { useUniqueId } from "metabase/common/hooks/use-unique-id";
-
 import {
   Label,
   LabelContainer,
-} from "../../../components/MetadataInfo/MetadataInfo.styled";
+} from "metabase/common/components/MetadataInfo/MetadataInfo.styled";
+import { useDocsUrl } from "metabase/common/hooks";
+import { useUniqueId } from "metabase/common/hooks/use-unique-id";
+
+// import {
+//   Label,
+//   LabelContainer,
+// } from "../../../components/MetadataInfo/MetadataInfo.styled";
 import type { EngineOption } from "../../types";
 import { getEngineLogo } from "../../utils/engine";
 
@@ -148,6 +152,7 @@ const EngineSearch = ({
       <Input
         value={searchText}
         autoFocus
+        aria-label={t`Search for a database`}
         aria-autocomplete="list"
         aria-controls={getListBoxId(rootId)}
         aria-activedescendant={getListOptionId(rootId, activeOption)}
@@ -193,7 +198,21 @@ const EngineList = ({
       role="listbox"
       id={getListBoxId(rootId)}
       aria-live="assertive"
+      aria-atomic="true"
     >
+      {/* <div
+        aria-live="assertive"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        Options: {options.map((option) => `${option.name} `)}
+      </div> */}
       {options.map((option, optionIndex) => (
         <EngineCard
           key={option.value}
@@ -230,6 +249,8 @@ const EngineCard = ({
     <EngineCardRoot
       role="option"
       tabIndex={0}
+      // aria-hidden="true"
+      // aria-label=""
       id={getListOptionId(rootId, option)}
       isActive={isActive}
       onClick={handleClick}
