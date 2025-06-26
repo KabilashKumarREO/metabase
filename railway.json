@@ -1,0 +1,46 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "startCommand": "/app/run_metabase.sh",
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "MB_JETTY_HOST": "0.0.0.0",
+        "MB_JETTY_PORT": "3000",
+        "MB_DB_FILE": "/app/metabase.db",
+        "MB_DB_TYPE": "h2",
+        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200",
+        "JAVA_TIMEZONE": "UTC"
+      }
+    },
+    "development": {
+      "variables": {
+        "MB_JETTY_HOST": "0.0.0.0",
+        "MB_JETTY_PORT": "3000",
+        "MB_DB_FILE": "/app/metabase.db",
+        "MB_DB_TYPE": "h2",
+        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200",
+        "JAVA_TIMEZONE": "UTC"
+      }
+    }
+  },
+  "resources": {
+    "cpu": {
+      "request": "100m",
+      "limit": "500m"
+    },
+    "memory": {
+      "request": "256Mi",
+      "limit": "512Mi"
+    }
+  }
+}
