@@ -21,8 +21,15 @@ RUN wget -O /app/metabase.jar https://downloads.metabase.com/latest/metabase.jar
 COPY bin/docker/run_metabase.sh /app/
 RUN chmod +x /app/run_metabase.sh
 
+# Create startup script for Railway
+RUN echo '#!/bin/bash' > /app/start.sh && \
+    echo 'echo "Starting Metabase..."' >> /app/start.sh && \
+    echo 'sleep 10' >> /app/start.sh && \
+    echo 'exec /app/run_metabase.sh' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
 # Expose port
 EXPOSE 3000
 
-# Run Metabase
-ENTRYPOINT ["/app/run_metabase.sh"] 
+# Run Metabase with startup delay
+ENTRYPOINT ["/app/start.sh"] 

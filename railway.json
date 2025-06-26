@@ -5,11 +5,11 @@
     "dockerfilePath": "Dockerfile.railway"
   },
   "deploy": {
-    "startCommand": "/app/run_metabase.sh",
-    "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 300,
+    "startCommand": "/app/start.sh",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 900,
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 3
+    "restartPolicyMaxRetries": 5
   },
   "environments": {
     "production": {
@@ -18,10 +18,11 @@
         "MB_JETTY_PORT": "3000",
         "MB_DB_FILE": "/app/metabase.db",
         "MB_DB_TYPE": "h2",
-        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200",
+        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Djava.security.egd=file:/dev/./urandom",
         "JAVA_TIMEZONE": "UTC",
         "VERSION": "latest",
-        "MB_EDITION": "oss"
+        "MB_EDITION": "oss",
+        "PORT": "3000"
       }
     },
     "development": {
@@ -30,10 +31,11 @@
         "MB_JETTY_PORT": "3000",
         "MB_DB_FILE": "/app/metabase.db",
         "MB_DB_TYPE": "h2",
-        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200",
+        "JAVA_OPTS": "-Xmx512m -Xms256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Djava.security.egd=file:/dev/./urandom",
         "JAVA_TIMEZONE": "UTC",
         "VERSION": "latest",
-        "MB_EDITION": "oss"
+        "MB_EDITION": "oss",
+        "PORT": "3000"
       }
     }
   },
