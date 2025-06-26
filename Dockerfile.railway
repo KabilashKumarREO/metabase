@@ -1,0 +1,28 @@
+# Simplified Dockerfile for Railway deployment
+FROM eclipse-temurin:21-jre-alpine as runner
+
+ENV FC_LANG en-US LC_CTYPE en_US.UTF-8
+
+# Install dependencies
+RUN apk add -U bash fontconfig curl font-noto font-noto-arabic font-noto-hebrew font-noto-cjk java-cacerts wget && \
+    apk upgrade && \
+    rm -rf /var/cache/apk/* && \
+    mkdir -p /app/certs && \
+    curl https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -o /app/certs/rds-combined-ca-bundle.pem  && \
+    /opt/java/openjdk/bin/keytool -noprompt -import -trustcacerts -alias aws-rds -file /app/certs/rds-combined-ca-bundle.pem -keystore /etc/ssl/certs/java/cacerts -keypass changeit -storepass changeit && \
+    curl https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem -o /app/certs/DigiCertGlobalRootG2.crt.pem  && \
+    /opt/java/openjdk/bin/keytool -noprompt -import -trustcacerts -alias azure-cert -file /app/certs/DigiCertGlobalRootG2.crt.pem -keystore /etc/ssl/certs/java/cacerts -keypass changeit -storepass changeit && \
+    mkdir -p /plugins && chmod a+rwx /plugins
+
+# Download the latest Metabase JAR
+RUN wget -O /app/metabase.jar https://downloads.metabase.com/latest/metabase.jar
+
+# Copy the run script
+COPY bin/docker/run_metabase.sh /app/
+RUN chmod +x /app/run_metabase.sh
+
+# Expose port
+EXPOSE 3000
+
+# Run Metabase
+ENTRYPOINT ["/app/run_metabase.sh"] 
