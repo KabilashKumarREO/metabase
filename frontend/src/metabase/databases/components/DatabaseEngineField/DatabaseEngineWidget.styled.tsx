@@ -38,8 +38,7 @@ export const EngineCardRoot = styled.button<EngineCardRootProps>`
   border-radius: 0.375rem;
   background-color: var(--mb-color-bg-white);
   cursor: pointer;
-  outline: ${(props) =>
-    props.isActive && `2px solid var(--mb-color-focus-dark)`};
+  outline: ${(props) => props.isActive && `2px solid var(--mb-color-focus)`};
 
   &:hover {
     border-color: var(--mb-color-brand);
@@ -48,7 +47,7 @@ export const EngineCardRoot = styled.button<EngineCardRootProps>`
 
   &:focus {
     border: 2px solid var(--mb-base-color-white);
-    outline: 2px solid var(--mb-color-focus-dark);
+    outline: 2px solid var(--mb-color-focus);
   }
 `;
 
