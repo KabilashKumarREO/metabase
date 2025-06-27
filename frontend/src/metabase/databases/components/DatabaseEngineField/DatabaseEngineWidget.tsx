@@ -152,8 +152,7 @@ const EngineSearch = ({
       ? `${visibleOptions.length} results found. Use arrow keys to navigate.`
       : "No results found.";
 
-    // Force re-announcement by clearing and then setting
-    setAriaMessage(""); // Clear first
+    setAriaMessage("");
     const timeout = setTimeout(() => setAriaMessage(message), 50);
 
     return () => clearTimeout(timeout);
