@@ -26,7 +26,7 @@
 
 .Button:focus {
   border: 2px solid var(--mb-base-color-white);
-  outline: 2px solid var(--mb-color-focus);
+  outline: 2px solid var(--mb-color-brand);
 }
 
 .Button:focus:not(:focus-visible) {
@@ -81,7 +81,7 @@
 .ButtonWarning {
   color: var(--mb-color-text-white);
   background: var(--mb-color-error);
-  border: 1px solid var(--mb-color-error);
+  border: 2px solid var(--mb-color-error);
 }
 
 .ButtonWarning:hover {
