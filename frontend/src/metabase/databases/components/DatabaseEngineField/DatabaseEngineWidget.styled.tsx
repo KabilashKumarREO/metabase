@@ -47,7 +47,7 @@ export const EngineCardRoot = styled.button<EngineCardRootProps>`
 
   &:focus {
     border: 2px solid var(--mb-base-color-white);
-    outline: 2px solid var(--mb-color-focus);
+    outline: 2px solid var(--mb-color-brand);
   }
 `;
 

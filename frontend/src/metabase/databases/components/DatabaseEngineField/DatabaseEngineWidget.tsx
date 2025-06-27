@@ -1,5 +1,5 @@
 import type { ChangeEvent, KeyboardEvent } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { jt, t } from "ttag";
 
 import { useDocsUrl } from "metabase/common/hooks";
@@ -140,6 +140,25 @@ const EngineSearch = ({
     [activeIndex, activeOption, optionCount, onChange],
   );
 
+  const [ariaMessage, setAriaMessage] = useState("");
+
+  useEffect(() => {
+    if (!searchText && visibleOptions.length === 0) {
+      setAriaMessage("");
+      return;
+    }
+
+    const message = visibleOptions.length
+      ? `${visibleOptions.length} results found. Use arrow keys to navigate.`
+      : "No results found.";
+
+    // Force re-announcement by clearing and then setting
+    setAriaMessage(""); // Clear first
+    const timeout = setTimeout(() => setAriaMessage(message), 50);
+
+    return () => clearTimeout(timeout);
+  }, [searchText, visibleOptions]);
+
   return (
     <EngineSearchRoot role="combobox">
       <LabelContainer>
@@ -155,6 +174,21 @@ const EngineSearch = ({
         onChange={handleSearch}
         onKeyDown={handleKeyDown}
       />
+      <div
+        className="visually-hidden"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {ariaMessage}
+      </div>
+
       {visibleOptions.length ? (
         <EngineList
           rootId={rootId}
@@ -189,11 +223,7 @@ const EngineList = ({
   onOptionChange,
 }: EngineListProps): JSX.Element => {
   return (
-    <EngineListRoot
-      role="listbox"
-      id={getListBoxId(rootId)}
-      aria-live="assertive"
-    >
+    <EngineListRoot role="listbox" id={getListBoxId(rootId)}>
       {options.map((option, optionIndex) => (
         <EngineCard
           key={option.value}
