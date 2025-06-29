@@ -3,14 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { jt, t } from "ttag";
 
 import { useDocsUrl } from "metabase/common/hooks";
+import {
+  Label,
+  LabelContainer,
+} from "metabase/components/MetadataInfo/MetadataInfo.styled";
 import ExternalLink from "metabase/core/components/ExternalLink";
 import Input from "metabase/core/components/Input";
 import { useUniqueId } from "metabase/hooks/use-unique-id";
 
-import {
-  Label,
-  LabelContainer,
-} from "../../../components/MetadataInfo/MetadataInfo.styled";
 import type { EngineOption } from "../../types";
 import { getEngineLogo } from "../../utils/engine";
 
@@ -286,13 +286,13 @@ const EngineEmptyState = ({ isHosted }: EngineEmptyStateProps): JSX.Element => {
     <EngineEmptyStateRoot>
       <EngineEmptyIcon name="search" size={32} />
       {isHosted ? (
-        <EngineEmptyText>{t`Didn't find anything`}</EngineEmptyText>
+        <EngineEmptyText>{t`Didn’t find anything`}</EngineEmptyText>
       ) : (
-        <EngineEmptyText>{jt`Don't see your database? Check out our ${(
+        <EngineEmptyText>{jt`Don’t see your database? Check out our ${(
           <ExternalLink key="link" href={docsUrl}>
             {t`Community Drivers`}
           </ExternalLink>
-        )} page to see if it's available for self-hosting.`}</EngineEmptyText>
+        )} page to see if it’s available for self-hosting.`}</EngineEmptyText>
       )}
     </EngineEmptyStateRoot>
   );
