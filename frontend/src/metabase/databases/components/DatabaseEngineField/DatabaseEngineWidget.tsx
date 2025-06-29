@@ -105,6 +105,7 @@ const EngineSearch = ({
   const [searchText, setSearchText] = useState("");
   const [activeIndex, setActiveIndex] = useState<number>();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [dbOptionsAriaMessage, setDbOptionsAriaMessage] = useState("");
   const isSearching = searchText.length > 0;
   const isNavigating = activeIndex != null;
   const hasMoreOptions = options.length > DEFAULT_OPTIONS_COUNT;
@@ -113,6 +114,22 @@ const EngineSearch = ({
     () => getVisibleOptions(options, isExpanded, isSearching, searchText),
     [options, isExpanded, isSearching, searchText],
   );
+
+  useEffect(() => {
+    if (!searchText && visibleOptions.length === 0) {
+      setDbOptionsAriaMessage("");
+      return;
+    }
+
+    const message = visibleOptions.length
+      ? `${visibleOptions.length} ${visibleOptions.length === 1 ? "result" : "results"} found. Use arrow keys to navigate.`
+      : "No results found.";
+
+    setDbOptionsAriaMessage("");
+    const timeout = setTimeout(() => setDbOptionsAriaMessage(message), 50);
+
+    return () => clearTimeout(timeout);
+  }, [searchText, visibleOptions]);
 
   const optionCount = visibleOptions.length;
   const activeOption = isNavigating ? visibleOptions[activeIndex] : undefined;
@@ -139,24 +156,6 @@ const EngineSearch = ({
     },
     [activeIndex, activeOption, optionCount, onChange],
   );
-
-  const [ariaMessage, setAriaMessage] = useState("");
-
-  useEffect(() => {
-    if (!searchText && visibleOptions.length === 0) {
-      setAriaMessage("");
-      return;
-    }
-
-    const message = visibleOptions.length
-      ? `${visibleOptions.length} results found. Use arrow keys to navigate.`
-      : "No results found.";
-
-    setAriaMessage("");
-    const timeout = setTimeout(() => setAriaMessage(message), 50);
-
-    return () => clearTimeout(timeout);
-  }, [searchText, visibleOptions]);
 
   return (
     <EngineSearchRoot role="combobox">
@@ -185,7 +184,7 @@ const EngineSearch = ({
           overflow: "hidden",
         }}
       >
-        {ariaMessage}
+        {dbOptionsAriaMessage}
       </div>
 
       {visibleOptions.length ? (
