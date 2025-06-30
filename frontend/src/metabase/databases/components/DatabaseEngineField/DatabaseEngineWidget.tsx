@@ -7,6 +7,7 @@ import ExternalLink from "metabase/core/components/ExternalLink";
 import {
   FieldLabel,
   FieldLabelContainer,
+  FieldRoot,
 } from "metabase/core/components/FormField/FormField.styled";
 import Input from "metabase/core/components/Input";
 import { useUniqueId } from "metabase/hooks/use-unique-id";
@@ -159,37 +160,38 @@ const EngineSearch = ({
 
   return (
     <EngineSearchRoot role="combobox">
-      <FieldLabelContainer orientation="vertical" hasDescription={false}>
-        <FieldLabel htmlFor="search-for-a-database" hasError={false}>
-          {t`Search for a database`}
-        </FieldLabel>
-      </FieldLabelContainer>
-      <Input
-        id="search-for-a-database"
-        value={searchText}
-        autoFocus
-        aria-autocomplete="list"
-        aria-controls={getListBoxId(rootId)}
-        aria-activedescendant={getListOptionId(rootId, activeOption)}
-        fullWidth
-        onChange={handleSearch}
-        onKeyDown={handleKeyDown}
-      />
-      <div
-        className="visually-hidden"
-        aria-live="polite"
-        aria-atomic="true"
-        style={{
-          position: "absolute",
-          left: "-9999px",
-          width: "1px",
-          height: "1px",
-          overflow: "hidden",
-        }}
-      >
-        {dbOptionsAriaMessage}
-      </div>
-
+      <FieldRoot orientation="vertical" alignment="end">
+        <FieldLabelContainer orientation="vertical" hasDescription={false}>
+          <FieldLabel htmlFor="search-for-a-database" hasError={false}>
+            {t`Search for a database`}
+          </FieldLabel>
+        </FieldLabelContainer>
+        <Input
+          id="search-for-a-database"
+          value={searchText}
+          autoFocus
+          aria-autocomplete="list"
+          aria-controls={getListBoxId(rootId)}
+          aria-activedescendant={getListOptionId(rootId, activeOption)}
+          fullWidth
+          onChange={handleSearch}
+          onKeyDown={handleKeyDown}
+        />
+        <div
+          className="visually-hidden"
+          aria-live="polite"
+          aria-atomic="true"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+          }}
+        >
+          {dbOptionsAriaMessage}
+        </div>
+      </FieldRoot>
       {visibleOptions.length ? (
         <EngineList
           rootId={rootId}
