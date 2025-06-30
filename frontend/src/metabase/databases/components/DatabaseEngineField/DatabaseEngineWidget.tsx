@@ -3,11 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { jt, t } from "ttag";
 
 import { useDocsUrl } from "metabase/common/hooks";
-import {
-  Label,
-  LabelContainer,
-} from "metabase/components/MetadataInfo/MetadataInfo.styled";
 import ExternalLink from "metabase/core/components/ExternalLink";
+import {
+  FieldLabel,
+  FieldLabelContainer,
+} from "metabase/core/components/FormField/FormField.styled";
 import Input from "metabase/core/components/Input";
 import { useUniqueId } from "metabase/hooks/use-unique-id";
 
@@ -159,10 +159,13 @@ const EngineSearch = ({
 
   return (
     <EngineSearchRoot role="combobox">
-      <LabelContainer>
-        <Label>{t`Search for a database`}</Label>
-      </LabelContainer>
+      <FieldLabelContainer orientation="vertical" hasDescription={false}>
+        <FieldLabel htmlFor="search-for-a-database" hasError={false}>
+          {t`Search for a database`}
+        </FieldLabel>
+      </FieldLabelContainer>
       <Input
+        id="search-for-a-database"
         value={searchText}
         autoFocus
         aria-autocomplete="list"
